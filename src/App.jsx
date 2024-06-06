@@ -6,6 +6,18 @@ import NotFoundPage from "./pages/NotFoundPage"
 import DetailJobPage from "./pages/DetailJobPage"
 import AddJobPage from "./pages/AddJobPage"
 
+const addJob = async (newJobData) => {
+  await fetch('http://localhost:8000/jobs', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(newJobData)
+  })
+
+  return
+}
+
 // routerProvider = yang memprovide routernya, atau yang menngimplementasikan route yang udah dibuat ke web kita
 
 const router = createBrowserRouter(
@@ -13,7 +25,7 @@ const router = createBrowserRouter(
     <Route path="/" element={<MainLayout />}>
       <Route index element={<HomePage />} />
       <Route path="/jobs" element={<JobsPage />} />
-      <Route path="/add-job" element={<AddJobPage />} />
+      <Route path="/add-job" element={<AddJobPage addJob={addJob} />} />
       <Route path="/job/:id" element={<DetailJobPage />} />
       <Route path="*" element={<NotFoundPage />} />
     </Route>

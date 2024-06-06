@@ -1,15 +1,39 @@
 import { useState } from "react"
+import { useNavigate } from "react-router-dom"
 
-export default function AddJobPage() {
+// eslint-disable-next-line react/prop-types
+export default function AddJobPage({ addJob }) {
+  const navigate = useNavigate()
   const [title, setTitle] = useState('')
   const [type, setType] = useState('')
+  const [location, setLocation] = useState('')
   const [description, setDescription] = useState('')
   const [salary, setSalary] = useState('')
-  const [location, setLocation] = useState('')
-  const [company, setCompany] = useState('')
+  const [companyName, setCompanyName] = useState('')
   const [companyDesc, setCompanyDesc] = useState('')
   const [email, setEmail] = useState('')
   const [phone, setPhone] = useState('')
+
+  const handleSubmitButton = (e) => {
+    e.preventDefault()
+
+    const newJobData = {
+      title: title,
+      type: type,
+      location: location,
+      description: description,
+      salary: salary,
+      company: {
+        name: companyName,
+        description: companyDesc,
+        contactEmail: email,
+        contactPhone: phone
+      }
+    }
+
+    addJob(newJobData)
+    navigate('/jobs')
+  }
 
   return (
     <section className="bg-sky-50">
@@ -17,7 +41,7 @@ export default function AddJobPage() {
         <div
           className="bg-white px-6 py-8 mb-4 shadow-md rounded-md border m-4 md:m-0"
         >
-          <form>
+          <form onSubmit={(e) => { handleSubmitButton(e) }}>
             <h2 className="text-3xl text-center font-semibold mb-6">Add Job</h2>
 
             <div className="mb-4">
@@ -130,9 +154,9 @@ export default function AddJobPage() {
                 name="company"
                 className="border rounded w-full py-2 px-3"
                 placeholder="Company Name"
-                value={company}
+                value={companyName}
                 onChange={(e) => {
-                  setCompany(e.target.value)
+                  setCompanyName(e.target.value)
                 }}
               />
             </div>
